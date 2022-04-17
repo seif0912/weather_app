@@ -1,0 +1,107 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    font-family: helvetica, sans-serif;
+    color: white;
+    background-color: rgb(11, 9, 22);
+    margin: 0;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+.container{
+    max-width: 1200px;
+    min-height: calc(100vh - 100px);
+    margin: auto auto;
+    padding-top: 40px;
+    padding-left: 50px;
+}
+
+
+/* start Current Weather Widget */
+
+.current-weather{
+    background-color: rgba(25, 25, 44, 0.897);
+    max-width: 600px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.current-weather .head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.current-weather .head .location{
+    max-width: 150px;
+    text-align: right;
+}
+
+.current-weather .head h2{
+    margin: 15px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 20px;
+}
+
+.current-weather .head .time{
+    color: rgb(163, 163, 163);
+    font-size: 16px;
+}
+
+.current-weather .weather-general{
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    gap: 20px;
+}
+
+.current-weather .weather-general .temp{
+    display: flex;
+    align-items:flex-end;
+}
+
+.current-weather .weather-general .temp h1{
+    margin: 0;
+}
+
+.current-weather .info{
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 10px 5px;
+}
+
+.current-weather .info .box h3{
+    margin: 10px 0;
+    font-weight: lighter;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.current-weather .info .box p{
+    margin: 0;
+}
+
+.current-weather .info .box.wind p{
+    position: relative;
+}
+
+.current-weather .info .box.wind .arrow{
+    height: 20px;
+    width: 5px;
+    border-top: 22px solid white;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    border-bottom: 0;
+    position: absolute;
+    right: -20px;
+    transform: rotate(100deg);
+
+}
+
+
+/* end Current Weather Widget */

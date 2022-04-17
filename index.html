@@ -6,9 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 class="country"></h1>
-    <h2 class="temp"></h2>
+    
+    <div class="container">
+        <button class="am">american</button>
+        <button class="metric">metric</button>
+        <div class="current-weather">
+            <div class="head">
+                <div>
+                    <h2>current weather</h2>
+                    <p class="time"></p>
+                </div>
+                <div class="location">
+                    <h2>location</h2>
+                </div>
+            </div>
+            <div class="weather-general">
+                <img src="" alt="">
+                <div class="temp">
+                    <h1>00</h1>
+                    <p>&deg;<span>C</span></p>
+                </div>
+                <div class="disc">
+                    <p>condition</p>
+                    <p>feels like</p>
+                </div>
+            </div>
+            <!--
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+            -->
+            
+            <div class="info">
+                <div class="box wind">
+                    <h3>Wind</h3>
+                    <p><span class="value">bla bla</span> <span class="arrow"></span></p>
+                </div>
+                <div class="box humidity">
+                    <h3>humidity</h3>
+                    <p class="value">bla bla</p>
+                </div>
+                <div class="box visibility">
+                    <h3>visibility</h3>
+                    <p class="value">bla bla</p>
+                </div>
+                <div class="box pressure">
+                    <h3>pressure</h3>
+                    <p class="value">bla bla</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>
