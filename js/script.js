@@ -53,6 +53,8 @@ T.forEach(ele =>{
 })
 
 
+
+
 /////// try code
 
 
@@ -100,7 +102,7 @@ function getWeather(city){
     key = 'a4ee2070c05a43e5ae3125414221604'
 
     current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${city}`
-    forecast = `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&days=7&aqi=yes&alerts=yes`
+    forecast = `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&days=10&aqi=yes&alerts=yes`
     search_autocomplete = `http://api.weatherapi.com/v1/search.json?key=${key}&q=${city}`
     astronomy = `http://api.weatherapi.com/v1/astronomy.json?key=${key}&q=${city}`
     timeZone = `http://api.weatherapi.com/v1/timezone.json?key=${key}&q=${city}`
@@ -119,8 +121,29 @@ function getWeather(city){
 
 function manipulate(data){
     // current weather widget
+    header(data)
     currentWeatherWidget(data)
 }
+
+// header
+function header(data){
+    let location = document.querySelector('header .location p')
+    let temp = document.querySelector('header .location span')
+    let img = document.querySelector('header .location img')
+
+    location.innerText = `${data[0].location.name}, ${data[0].location.country}`
+    img.src = data[0].current.condition.icon
+    if(sys == 'metric'){
+        temp.innerHTML = `${data[0].current.temp_c}&deg;C`
+    }else if(sys == 'am'){
+        temp.innerHTML = `${data[0].current.temp_f}&deg;F`
+    }
+
+
+}
+
+
+// end header
 
 // current Weather Widget
 function currentWeatherWidget(data){
@@ -166,4 +189,6 @@ function currentWeatherWidget(data){
         visibility.innerText = `${data[1].current.vis_miles} Miles`
         para.innerHTML = para.innerText + ` the high will be ${data[1].forecast.forecastday[0].day.maxtemp_f}&deg;.`
     }
+
+    console.log(data[1].forecast.forecastday[5])
 }
