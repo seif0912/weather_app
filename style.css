@@ -105,3 +105,49 @@ body{
 
 
 /* end Current Weather Widget */
+
+
+/* start more */
+
+.more{
+    background-color: rgba(25, 25, 44, 0.897);
+    margin-top: 50px;
+    padding: 15px;
+}
+
+.more .title{
+    display: flex;
+    gap: 20px;
+    
+}
+
+.more .title p{
+    margin: 0;
+    background-color: rgba(84, 84, 128, 0.945);
+    cursor: pointer;
+    padding: 10px 30px;
+}
+
+.more .box{
+    height: 100px;
+    margin-top: 15px;
+    display: none;
+}
+
+.more .box.red{
+    background-color: red;
+}
+
+.more .box.green{
+    background-color: green;
+}
+
+.more .box.blue{
+    background-color: blue;
+}
+
+.more .box.active{
+    display: block;
+}
+
+/* end more */

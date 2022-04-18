@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////
 
 
-let input = 'paris' // this means the weather is local by default
+let input = '' // this means the weather is local by default
 let sys = 'metric' // metric system unit by defaut
 
 if (input === ''){
@@ -39,15 +39,26 @@ sysM.addEventListener('click',()=>{
     }
 })
 //////// end unit system
+let T = document.querySelectorAll('.more .title p')
+
+console.log(T)
+T.forEach(ele =>{
+    ele.addEventListener('click', (e)=>{
+        c = e.target.innerText
+        document.querySelector('.more .box.active').classList.remove('active')
+        
+        let b1 = document.querySelector(`.more .box.${c}`)
+        b1.classList.add('active')
+    })
+})
+
+
+/////// try code
 
 
 
 
-
-
-
-
-
+//////// end try code
 
 
 ///////// local weather | city weather
@@ -126,6 +137,7 @@ function currentWeatherWidget(data){
     let humidity = document.querySelector('.current-weather .info .box.humidity p')
     let visibility = document.querySelector('.current-weather .info .box.visibility p')
     let pressure = document.querySelector('.current-weather .info .box.pressure p')
+    let para = document.querySelector('.current-weather .para')
     
     
     // manipulation
@@ -135,6 +147,8 @@ function currentWeatherWidget(data){
     currentCondition.innerText = data[0].current.condition.text
     humidity.innerText = `${data[1].current.humidity}%`
     windDirection.style.transform = `rotate(${data[0].current.wind_degree}deg)`
+    para.innerText = `Expect ${data[1].forecast.forecastday[0].day.condition.text} skies.`
+
     if(sys == 'metric'){
         currentTemperature.innerText = data[0].current.temp_c
         temperatureUnit.innerText = 'C'
@@ -142,6 +156,7 @@ function currentWeatherWidget(data){
         pressure.innerText = `${data[1].current.pressure_mb}mb`
         windSpeed.innerText = `${data[0].current.wind_kph} Kph`
         visibility.innerText = `${data[1].current.vis_km} Km`
+        para.innerHTML = para.innerText + ` the high will be ${data[1].forecast.forecastday[0].day.maxtemp_c}&deg;.`
     }else if(sys == 'am'){
         currentTemperature.innerText = data[0].current.temp_f
         temperatureUnit.innerText = 'F'
@@ -149,5 +164,6 @@ function currentWeatherWidget(data){
         pressure.innerText = `${data[1].current.pressure_in}in`
         windSpeed.innerText = `${data[0].current.wind_mph} Mph`
         visibility.innerText = `${data[1].current.vis_miles} Miles`
+        para.innerHTML = para.innerText + ` the high will be ${data[1].forecast.forecastday[0].day.maxtemp_f}&deg;.`
     }
 }
