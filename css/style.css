@@ -182,6 +182,7 @@ header .container>i{
 .current-weather .head .location{
     max-width: 150px;
     text-align: right;
+    font-size: 18px;
 }
 
 .current-weather .head h2{
@@ -194,11 +195,12 @@ header .container>i{
 .current-weather .head .time{
     color: rgb(163, 163, 163);
     font-size: 16px;
+    margin: 0;
 }
 
 .current-weather .weather-general{
     display: flex;
-    margin-top: 20px;
+    margin: 20px 0 10px;
     align-items: center;
     gap: 20px;
 }
@@ -212,10 +214,25 @@ header .container>i{
     margin: 0;
 }
 
+.current-weather .weather-general .disc p:first-child{
+    margin-bottom: 8px;
+}
+
+.current-weather .weather-general .disc p:last-child{
+    margin-top: 0;
+    color: rgb(163, 163, 163);
+}
+
+.current-weather .para{
+    margin-top: 0;
+}
+
 .current-weather .info{
     display: flex;
     justify-content: space-between;
-    margin: 30px 10px 5px;
+    margin: 30px 0px 5px;
+    padding: 10px 10px 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.096);
 }
 
 .current-weather .info .box h3{

@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////
 
 
-let input = '' // this means the weather is local by default
+let input = 'paris' // this means the weather is local by default
 let sys = 'metric' // metric system unit by defaut
 
 if (input === ''){
@@ -25,8 +25,10 @@ sysA.addEventListener('click',()=>{
     sys = 'am'
     if (input === ''){
         getLocalWeather()
+        header()
     }else{
         getWeatherIn(input)
+        header()
     }
     
 })
@@ -96,11 +98,9 @@ function getWeatherIn(city){
 
 
 
-
 // get weather
 function getWeather(city){
     key = 'a4ee2070c05a43e5ae3125414221604'
-
     current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${city}`
     forecast = `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&days=10&aqi=yes&alerts=yes`
     search_autocomplete = `http://api.weatherapi.com/v1/search.json?key=${key}&q=${city}`
@@ -121,28 +121,68 @@ function getWeather(city){
 
 function manipulate(data){
     // current weather widget
-    header(data)
     currentWeatherWidget(data)
 }
 
 // header
-function header(data){
-    let location = document.querySelector('header .location p')
-    let temp = document.querySelector('header .location span')
-    let img = document.querySelector('header .location img')
 
-    location.innerText = `${data[0].location.name}, ${data[0].location.country}`
-    img.src = data[0].current.condition.icon
-    if(sys == 'metric'){
-        temp.innerHTML = `${data[0].current.temp_c}&deg;C`
-    }else if(sys == 'am'){
-        temp.innerHTML = `${data[0].current.temp_f}&deg;F`
+function localPos(){
+    const success = (position)=>{
+        //console.log(position)
+        latitude = position.coords.latitude
+        longitude = position.coords.longitude
+        //console.log(latitude, longitude)
+        const geoCode = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+    
+        localWeather(geoCode)
+    }
+    const error = ()=>{
+        console.log('no')
     }
 
+    function localWeather(pos){
+        fetch(pos)
+        .then(res => res.json())
+        .then(data => {
+            //console.log('***', data)
+            let city = data.city
+            let country = data.countryName
+            console.log(city, country)
+            key = 'a4ee2070c05a43e5ae3125414221604'
+            current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${country}`
+            fetch(current)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                let ticket = document.querySelector('header .location.self-location')
+                ticket.children[1].innerText = `${data.location.name}, ${data.location.country}`
+                ticket.children[2].src = data.current.condition.icon
+                if(sys === 'metric'){
+                    ticket.children[3].innerHTML = `${data.current.temp_c}&deg;`
+                }else if(sys === 'am'){
+                    ticket.children[3].innerHTML = `${data.current.temp_f}&deg;`
+                }
+                console.log(';;;', ticket.children)
+            })
+        })
 
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error)
+}
+/*
+let bla = document.querySelector('header .location.self-location')
+
+bla.addEventListener('click', function(){
+    getLocalWeather()
+})
+*/
+
+function header(){
+    localPos()
 }
 
-
+header()
 // end header
 
 // current Weather Widget
@@ -190,5 +230,4 @@ function currentWeatherWidget(data){
         para.innerHTML = para.innerText + ` the high will be ${data[1].forecast.forecastday[0].day.maxtemp_f}&deg;.`
     }
 
-    console.log(data[1].forecast.forecastday[5])
 }
