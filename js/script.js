@@ -36,8 +36,10 @@ sysM.addEventListener('click',()=>{
     sys = 'metric'
     if (input === ''){
         getLocalWeather()
+        header()
     }else{
         getWeatherIn(input)
+        header()
     }
 })
 //////// end unit system
@@ -124,8 +126,32 @@ function manipulate(data){
     currentWeatherWidget(data)
 }
 
-// header
+//////////////////// header
 
+//// search
+let searchInput = document.querySelector('header .search input')
+let searchBtn = document.querySelector('header .search i')
+
+searchInput.addEventListener("keydown", function(event){
+    if (event.key === 'Enter' || event.which === 13) {
+        event.preventDefault();
+        areaSearch(searchInput.value)
+    }
+});
+searchBtn.addEventListener('click', () => {areaSearch(searchInput.value)})
+
+function areaSearch(area){
+    //console.log('--',area)
+    getWeatherIn(area)
+    addTicket(area)
+}
+
+function addTicket(area){
+    
+}
+
+
+//// default weather
 function localPos(){
     const success = (position)=>{
         //console.log(position)
@@ -153,7 +179,7 @@ function localPos(){
             fetch(current)
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                //console.log(data)
                 let ticket = document.querySelector('header .location.self-location')
                 ticket.children[1].innerText = `${data.location.name}, ${data.location.country}`
                 ticket.children[2].src = data.current.condition.icon
@@ -162,7 +188,7 @@ function localPos(){
                 }else if(sys === 'am'){
                     ticket.children[3].innerHTML = `${data.current.temp_f}&deg;`
                 }
-                console.log(';;;', ticket.children)
+                //console.log(';;;', ticket.children)
             })
         })
 
@@ -170,13 +196,6 @@ function localPos(){
 
     navigator.geolocation.getCurrentPosition(success, error)
 }
-/*
-let bla = document.querySelector('header .location.self-location')
-
-bla.addEventListener('click', function(){
-    getLocalWeather()
-})
-*/
 
 function header(){
     localPos()

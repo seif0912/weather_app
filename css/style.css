@@ -120,6 +120,7 @@ header .search i{
     border-top-right-radius: 3em;
     border-bottom-right-radius: 3em;
     background-color: rgba(47, 47, 73, 0.952);
+    cursor: pointer;
     
 }
 
