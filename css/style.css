@@ -10,6 +10,22 @@ body{
     color: white;
     background-color: rgb(11, 9, 22);
     margin: 0;
+    background-image: url('../images/noaa-ZVhm6rEKEX8-unsplash\ \(1\).jpg');
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+}
+
+body::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: .4;
+    z-index: -1;
 }
 
 .container{
@@ -75,7 +91,8 @@ ul {
 /* start header */
 
 header{
-    background-color: rgba(25, 25, 44, 0.897);
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
     height: 50px;
     display: flex;
     align-items: center;
@@ -92,6 +109,8 @@ header nav{
     align-items: center;
     gap: 15px;
     color: rgba(250, 250, 250, 0.952);
+    
+    
 }
 
 header nav .search{
@@ -103,23 +122,24 @@ header .search input[type='text']{
     padding: 5px 15px;
     border-top-left-radius: 3em;
     border-bottom-left-radius: 3em;
-    background-color: rgba(47, 47, 73, 0.952);
+    background-color: rgba(0, 0, 0, 0.6);
     border: none;
     font-size: 17px;
-    color: white;
+    color: rgb(255, 255, 255);
     width: 200px;
     padding-right: 0;
 }
 
 header .search input[type='text']:focus{
     outline: none;
+    background-color: rgba(0, 0, 0, 0.85);
 }
 
 header .search i{
     padding: 7px 20px;
     border-top-right-radius: 3em;
     border-bottom-right-radius: 3em;
-    background-color: rgba(47, 47, 73, 0.952);
+    background-color: rgba(0, 0, 0, 0.6);
     cursor: pointer;
     
 }
@@ -130,15 +150,16 @@ header .locations{
 
 header .locations .location{
     display: flex;
+    position: relative;
     align-items: center;
     padding: 0 15px;
     transition: .2s;
     cursor: pointer;
-    border-right: 1px solid rgba(47, 47, 73, 0.952);
+    border-right: 1px solid rgba(255, 255, 255, 0.295);
 }
 
 header .locations .location:hover{
-    background-color: rgba(47, 47, 73, 0.952);
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 header .locations .location img{
@@ -149,6 +170,68 @@ header .locations .location img{
 header .locations .location p{
     margin-right: 20px;
     margin-left: 10px;
+}
+
+header .locations .location i.fa-ellipsis-vertical{
+    cursor: pointer;
+    margin: 0;
+    margin-left: 15px;
+    padding: 10px 15px;
+    border-radius: 50%;
+
+}
+
+header .locations .location i.fa-ellipsis-vertical:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+header .locations .location .options{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+    bottom: -110px;
+    right: 0;
+    border-radius: 6px;
+    height: fit-content;
+    width: 110px;
+    display: none;
+}
+
+header .locations .location .options.active{
+    display: block;
+}
+
+header .locations .location .options::before{
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.4) transparent;
+    top: -20px;
+    right: 22px;
+}
+
+header .locations .location .options .option{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: .2s;
+    padding: 15px 10px;
+}
+
+header .locations .location .options .option.pin{
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+header .locations .location .options .option.remove{
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+header .locations .location .options .option:hover{
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 header .container>i{
@@ -168,7 +251,8 @@ header .container>i{
 }
 
 .current-weather{
-    background-color: rgba(25, 25, 44, 0.897);
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
     max-width: 600px;
     padding: 15px;
     border-radius: 10px;
@@ -273,9 +357,11 @@ header .container>i{
 /* start more */
 
 .more{
-    background-color: rgba(25, 25, 44, 0.897);
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
     margin-top: 50px;
     padding: 15px;
+    border-radius: 10px;
 }
 
 .more .title{
@@ -286,7 +372,7 @@ header .container>i{
 
 .more .title p{
     margin: 0;
-    background-color: rgba(84, 84, 128, 0.945);
+    background-color: rgba(23, 21, 44, 0.774);
     cursor: pointer;
     padding: 10px 30px;
 }

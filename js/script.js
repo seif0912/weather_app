@@ -6,9 +6,9 @@
 ///////////////////////////////////////////////////////////////
 
 
-let input = 'paris' // this means the weather is local by default
+let input = '' // this means the weather is local by default
 let sys = 'metric' // metric system unit by defaut
-
+let array = []
 if (input === ''){
     getLocalWeather()
 }else{
@@ -117,6 +117,9 @@ function getWeather(city){
     )).then(objs =>{
         console.log(objs) 
         manipulate(objs) // manipulate the DOM accourding to the weather data
+    }).catch(res =>{
+        console.log(res)
+        searchArea('', false)
     })
     
 }
@@ -129,28 +132,109 @@ function manipulate(data){
 //////////////////// header
 
 //// search
-let searchInput = document.querySelector('header .search input')
-let searchBtn = document.querySelector('header .search i')
 
-searchInput.addEventListener("keydown", function(event){
-    if (event.key === 'Enter' || event.which === 13) {
-        event.preventDefault();
-        areaSearch(searchInput.value)
-    }
-});
-searchBtn.addEventListener('click', () => {areaSearch(searchInput.value)})
-
-function areaSearch(area){
-    //console.log('--',area)
-    getWeatherIn(area)
-    addTicket(area)
-}
-
-function addTicket(area){
+function searchArea(){
+    let searchInput = document.querySelector('header .search input')
+    let searchBtn = document.querySelector('header .search i')
     
+    searchInput.addEventListener("keydown", function(event){
+        if ((event.key === 'Enter' || event.which === 13) && searchInput.value !='') {
+            event.preventDefault();
+            areaSearch(searchInput.value, true)
+            searchInput.value = ''
+        }
+    });
+    searchBtn.addEventListener('click', () => {
+        if(searchInput.value !=''){
+            areaSearch(searchInput.value, true) 
+        }
+        
+    })
+    
+    function areaSearch(area, b){
+        //console.log('--',area)
+        if(b){
+            getWeatherIn(area)
+            addTicket(area)
+        }
+        
+        
+    }
+    function addTicket(area){
+
+        let locations = document.querySelector('header .locations')
+        let location = document.createElement('div')
+        // fetching weather data
+        key = 'a4ee2070c05a43e5ae3125414221604'
+        current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${area}`
+        fetch(current)
+            .then(res => res.json())
+            .then(data => {
+                //console.log('=>>', data)
+                // appending child
+                location.className = 'location'
+                location.innerHTML = `
+                    <i class="fa-solid fa-house"></i>
+                    <p>${data.location.name}, ${data.location.country}</p>
+                    <img src="${data.current.condition.icon}" alt="">
+                    <span></span>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                    <div class="options">
+                        <div class="option pin">
+                            <span>pin</span>
+                            <i class="fa-solid fa-thumbtack"></i>
+                        </div>
+                        <div class="option remove">
+                            <span>remove</span>
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+                    </div>
+                `
+                /*
+                location.addEventListener('click', e => {
+                    console.log(e.target.className)
+                    if(e.target.className === 'fa-solid fa-ellipsis-vertical'){
+                        document.querySelector('header .location .options:last-child').classList.toggle('active')
+                    }
+                })*/
+                array.push(`${data.location.name}, ${data.location.country}`)
+
+                //console.log('=>>', array)
+                
+    
+                if(sys == 'metric'){
+                    location.children[3].innerHTML = `${data.current.temp_c}&deg;`
+                }
+                //ticketsEvents()
+    
+            })
+            .catch(err => {
+                console.error(err)
+            })
+        
+        locations.appendChild(location)
+        
+        
+        
+    }
+    ticketsEvents()
+}
+///////////// tickets event listener
+
+function ticketsEvents(){
+    let positions = document.querySelectorAll('header .locations .location')
+    positions.forEach(position =>{
+        position.addEventListener('click', (e)=>{
+            
+            console.log('###')
+            console.log(e.target)
+        })
+    })
 }
 
 
+
+////////////
 //// default weather
 function localPos(){
     const success = (position)=>{
@@ -198,9 +282,11 @@ function localPos(){
 }
 
 function header(){
+    searchArea()
     localPos()
 }
 
+//
 header()
 // end header
 
