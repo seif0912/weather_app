@@ -14,7 +14,6 @@ body{
     position: relative;
     min-height: 100vh;
     background-size: cover;
-    cursor:default;
 }
 
 body::before{
@@ -86,6 +85,15 @@ ul {
     }
 }
 
+
+/*extra large*/
+
+@media (min-width:1480px) {
+    .container {
+        width: 1400px;
+    }
+}
+
 /* end Global rules */
 
 
@@ -97,6 +105,8 @@ header{
     height: 50px;
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 999;
 }
 
 header .container{
@@ -173,6 +183,14 @@ header .locations .location p{
     margin-left: 10px;
 }
 
+header .locations .location .temp{
+    display: none;
+}
+
+header .locations .location .temp.sys-active{
+    display: block;
+}
+
 header .locations .location i.fa-ellipsis-vertical{
     cursor: pointer;
     margin: 0;
@@ -235,11 +253,64 @@ header .locations .location .options .option:hover{
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-header .container>i{
+header .container .sys{
+    position: relative;
+}
+
+header .container .sys>i{
     color: white;
     cursor: pointer;
-    padding: 5px;
-    
+    padding: 10px;   
+}
+
+header .container .sys .sys-menu{
+    display: none;
+    position: absolute;
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+header .container .sys .sys-menu::before{
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+    top: -20px;
+    right: 10px;
+}
+
+header .container .sys .sys-menu.active{
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 55px;
+}
+
+header .container .sys .sys-menu span{
+    display: block;
+    padding: 20px 30px;
+    cursor: pointer;
+    font-size: 17px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+}
+
+header .container .sys .sys-menu span.active{
+    background-color: rgba(250, 250, 250, 0.4);
+    cursor: default;
+}
+
+header .container .sys .sys-menu span:first-child{
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+header .container .sys .sys-menu span:last-child{
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 /* end header */

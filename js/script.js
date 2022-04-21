@@ -7,7 +7,7 @@
 
 
 let input = '' // this means the weather is local by default
-let sys = 'metric' // metric system unit by defaut
+let sys = 'Metric' // metric system unit by defaut
 let array = []
 if (input === ''){
     getLocalWeather()
@@ -17,35 +17,15 @@ if (input === ''){
 
 
 
-///////// start unit system
-let sysA = document.querySelector('button.am')
-let sysM = document.querySelector('button.metric')
 
-sysA.addEventListener('click',()=>{
-    sys = 'am'
-    if (input === ''){
-        getLocalWeather()
-        header()
-    }else{
-        getWeatherIn(input)
-        header()
-    }
-    
-})
-sysM.addEventListener('click',()=>{
-    sys = 'metric'
-    if (input === ''){
-        getLocalWeather()
-        header()
-    }else{
-        getWeatherIn(input)
-        header()
-    }
-})
-//////// end unit system
+
+/////// try code
+
+
+//// try: more section
 let T = document.querySelectorAll('.more .title p')
 
-console.log(T)
+console.log('-----',T.innerText)
 T.forEach(ele =>{
     ele.addEventListener('click', (e)=>{
         c = e.target.innerText
@@ -55,12 +35,7 @@ T.forEach(ele =>{
         b1.classList.add('active')
     })
 })
-
-
-
-
-/////// try code
-
+//// try: more section | end
 
 
 
@@ -166,7 +141,8 @@ function searchArea(){
 
     
 }
-function addTicket(area, bool){
+
+function addTicket(area, pinned){
 
     let locations = document.querySelector('header .locations')
     let location = document.createElement('div')
@@ -183,7 +159,8 @@ function addTicket(area, bool){
                 <i class="fa-solid fa-house" data-cl="y"></i>
                 <p data-cl="y">${data.location.name}, ${data.location.country}</p>
                 <img data-cl="y" src="${data.current.condition.icon}" alt="">
-                <span data-cl="y"></span>
+                <span data-cl="y" class="temp m">${data.current.temp_c}&deg;C</span>
+                <span data-cl="y" class="temp a">${data.current.temp_f}&deg;F</span>
                 <i class="fa-solid fa-ellipsis-vertical"></i>
                 <div class="options">
                     <div data-op="pin" class="option pin">
@@ -196,10 +173,15 @@ function addTicket(area, bool){
                     </div>
                 </div>
             `
-            if(bool == true){
-                location.children[5].children[0].style.filter = 'blur(2px)'
-                location.children[5].children[0].style.cursor = 'default'
-                location.children[5].children[0].style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
+            if(sys ==='American'){
+                location.children[4].classList.add('sys-active')
+            }else{
+                location.children[3].classList.add('sys-active')
+            }
+            if(pinned == true){
+                location.children[6].children[0].style.filter = 'blur(2px)'
+                location.children[6].children[0].style.cursor = 'default'
+                location.children[6].children[0].style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
 
             }
             location.addEventListener('click', (e) => {
@@ -209,48 +191,34 @@ function addTicket(area, bool){
                 }
             })
 
-            location.children[4].addEventListener('click',(e)=>{
+            location.children[5].addEventListener('click',(e)=>{
 
                 //let op = document.querySelector('header .location .options')
-                location.children[5].classList.toggle('active')
+                location.children[6].classList.toggle('active')
                 
                 
             })
 
             // pin option: save to local storage
-            location.children[5].children[0].addEventListener('click', e => {
+            location.children[6].children[0].addEventListener('click', e => {
                 if(e.target.dataset.op == 'pin'){
                     saveLocal(`${data.location.name}, ${data.location.country}`)
-                    location.children[5].children[0].style.filter = 'blur(2px)'
-                    location.children[5].children[0].style.cursor = 'default'
-                    location.children[5].children[0].style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
+                    location.children[6].children[0].style.filter = 'blur(2px)'
+                    location.children[6].children[0].style.cursor = 'default'
+                    location.children[6].children[0].style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
 
                 }
             } )
 
             // remove option: remove the parent ticket from header and? local storage
-            location.children[5].children[1].addEventListener('click', e => {
+            location.children[6].children[1].addEventListener('click', e => {
                 if(e.target.dataset.op == 'remove'){
                     removeLocal(`${data.location.name}, ${data.location.country}`)
                     location.remove()
                 }
             } )
             
-            //console.log(location.children[5].children[0])
-
-
-
-
-            array.push(`${data.location.name}, ${data.location.country}`)
-
             //console.log('=>>', array)
-            
-
-            if(sys == 'metric'){
-                location.children[3].innerHTML = `${data.current.temp_c}&deg;`
-            }else{
-                location.children[3].innerHTML = `${data.current.temp_f}&deg;`
-            }
             
             locations.appendChild(location)
 
@@ -260,6 +228,7 @@ function addTicket(area, bool){
         })
     
 }
+
 let localPosition = document.querySelector('header .locations .location.self-location')
 localPosition.addEventListener('click', () => {
     //console.log('heyoo')
@@ -311,7 +280,60 @@ window.onload = function (){
     })
 }
 
+function system(){
+    let sysIcon = document.querySelector('header .sys .fa-gear')
+    sysIcon.addEventListener('click',()=>{
+        let menu = document.querySelector('header .sys .sys-menu')
+        menu.classList.toggle('active')
+    })
+    let sysSpan = document.querySelectorAll('header .sys .sys-menu span')
+    sysSpan.forEach((sp) => {
+        sp.addEventListener('click', (e) => {
+            let spActive = document.querySelector('header .sys-menu span.active')
+            spActive.classList.remove('active')
+            e.target.classList.add('active')
+            sys = e.target.innerText
+            let locM = document.querySelectorAll('header .location .temp.m')
+            let locA = document.querySelectorAll('header .location .temp.a')
+            if(sys === "American"){
+                locM.forEach((l) => {
+                    l.classList.remove('sys-active')
+                })
+                locA.forEach((l) => {
+                    l.classList.add('sys-active')
+                })
+                if (input === ''){
+                    getLocalWeather()
+                }else{
+                    getWeatherIn(input)
+                }
 
+            }else if(sys === "Metric"){
+                locA.forEach((l) => {
+                    l.classList.remove('sys-active')
+                })
+                locM.forEach((l) => {
+                    l.classList.add('sys-active')
+                })
+                if (input === ''){
+                    getLocalWeather()
+                }else{
+                    getWeatherIn(input)
+                }
+            }
+        })
+    })
+
+}
+
+function header(){
+    searchArea()
+    localPos()
+    system()
+}
+
+//
+header()
 ////////////
 //// default weather
 function localPos(){
@@ -345,11 +367,9 @@ function localPos(){
                 let ticket = document.querySelector('header .location.self-location')
                 ticket.children[1].innerText = `${data.location.name}, ${data.location.country}`
                 ticket.children[2].src = data.current.condition.icon
-                if(sys === 'metric'){
-                    ticket.children[3].innerHTML = `${data.current.temp_c}&deg;`
-                }else if(sys === 'am'){
-                    ticket.children[3].innerHTML = `${data.current.temp_f}&deg;`
-                }
+                ticket.children[3].innerHTML = `${data.current.temp_c}&deg;C`
+                ticket.children[4].innerHTML = `${data.current.temp_f}&deg;F`
+
                 //console.log(';;;', ticket.children)
             })
         })
@@ -359,13 +379,7 @@ function localPos(){
     navigator.geolocation.getCurrentPosition(success, error)
 }
 
-function header(){
-    searchArea()
-    localPos()
-}
 
-//
-header()
 // end header
 
 // current Weather Widget
@@ -395,7 +409,7 @@ function currentWeatherWidget(data){
     windDirection.style.transform = `rotate(${data[0].current.wind_degree}deg)`
     para.innerText = `Expect ${data[1].forecast.forecastday[0].day.condition.text} skies.`
 
-    if(sys == 'metric'){
+    if(sys == 'Metric'){
         currentTemperature.innerText = data[0].current.temp_c
         temperatureUnit.innerText = 'C'
         feelsLike.innerHTML = `feels like ${data[1].current.feelslike_c}&deg;C`
@@ -403,7 +417,7 @@ function currentWeatherWidget(data){
         windSpeed.innerText = `${data[0].current.wind_kph} Kph`
         visibility.innerText = `${data[1].current.vis_km} Km`
         para.innerHTML = para.innerText + ` the high will be ${data[1].forecast.forecastday[0].day.maxtemp_c}&deg;.`
-    }else if(sys == 'am'){
+    }else if(sys == 'American'){
         currentTemperature.innerText = data[0].current.temp_f
         temperatureUnit.innerText = 'F'
         feelsLike.innerHTML = `feels like ${data[1].current.feelslike_f}&deg;F`
