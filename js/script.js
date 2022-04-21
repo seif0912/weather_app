@@ -119,7 +119,7 @@ function getWeather(city){
         manipulate(objs) // manipulate the DOM accourding to the weather data
     }).catch(res =>{
         console.log(res)
-        searchArea('', false)
+        areaSearch('', false)
     })
     
 }
@@ -156,6 +156,8 @@ function searchArea(){
         if(b){
             getWeatherIn(area)
             addTicket(area)
+        }else{
+            return
         }
         
         
@@ -190,13 +192,19 @@ function searchArea(){
                         </div>
                     </div>
                 `
-                /*
-                location.addEventListener('click', e => {
-                    console.log(e.target.className)
-                    if(e.target.className === 'fa-solid fa-ellipsis-vertical'){
-                        document.querySelector('header .location .options:last-child').classList.toggle('active')
+                location.addEventListener('click', (e) => {
+                    //console.log(e.target)
+                    if(e.target.className != 'fa-solid fa-ellipsis-vertical'){
+                        getWeatherIn(data.location.name)
                     }
-                })*/
+                })
+
+                location.children[4].addEventListener('click',(e)=>{
+
+                    //let op = document.querySelector('header .location .options')
+                    location.children[5].classList.toggle('active')
+                })
+
                 array.push(`${data.location.name}, ${data.location.country}`)
 
                 //console.log('=>>', array)
@@ -204,33 +212,27 @@ function searchArea(){
     
                 if(sys == 'metric'){
                     location.children[3].innerHTML = `${data.current.temp_c}&deg;`
+                }else{
+                    location.children[3].innerHTML = `${data.current.temp_f}&deg;`
                 }
-                //ticketsEvents()
+                
+                locations.appendChild(location)
     
             })
             .catch(err => {
                 console.error(err)
             })
         
-        locations.appendChild(location)
-        
-        
-        
     }
-    ticketsEvents()
+    
 }
-///////////// tickets event listener
+let localPosition = document.querySelector('header .locations .location.self-location')
+localPosition.addEventListener('click', () => {
+    //console.log('heyoo')
+    getLocalWeather()
+})
 
-function ticketsEvents(){
-    let positions = document.querySelectorAll('header .locations .location')
-    positions.forEach(position =>{
-        position.addEventListener('click', (e)=>{
-            
-            console.log('###')
-            console.log(e.target)
-        })
-    })
-}
+///////////// tickets event listener
 
 
 
@@ -247,7 +249,7 @@ function localPos(){
         localWeather(geoCode)
     }
     const error = ()=>{
-        console.log('no')
+        console.log('no: localPos() says fuck off')
     }
 
     function localWeather(pos){
