@@ -155,75 +155,109 @@ function searchArea(){
         //console.log('--',area)
         if(b){
             getWeatherIn(area)
-            addTicket(area)
+            addTicket(area, false)
         }else{
             return
         }
         
         
     }
-    function addTicket(area){
 
-        let locations = document.querySelector('header .locations')
-        let location = document.createElement('div')
-        // fetching weather data
-        key = 'a4ee2070c05a43e5ae3125414221604'
-        current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${area}`
-        fetch(current)
-            .then(res => res.json())
-            .then(data => {
-                //console.log('=>>', data)
-                // appending child
-                location.className = 'location'
-                location.innerHTML = `
-                    <i class="fa-solid fa-house"></i>
-                    <p>${data.location.name}, ${data.location.country}</p>
-                    <img src="${data.current.condition.icon}" alt="">
-                    <span></span>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                    <div class="options">
-                        <div class="option pin">
-                            <span>pin</span>
-                            <i class="fa-solid fa-thumbtack"></i>
-                        </div>
-                        <div class="option remove">
-                            <span>remove</span>
-                            <i class="fa-solid fa-trash"></i>
-                        </div>
+
+    
+}
+function addTicket(area, bool){
+
+    let locations = document.querySelector('header .locations')
+    let location = document.createElement('div')
+    // fetching weather data
+    key = 'a4ee2070c05a43e5ae3125414221604'
+    current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${area}`
+    fetch(current)
+        .then(res => res.json())
+        .then(data => {
+            //console.log('=>>', data)
+            // appending child
+            location.className = 'location'
+            location.innerHTML = `
+                <i class="fa-solid fa-house" data-cl="y"></i>
+                <p data-cl="y">${data.location.name}, ${data.location.country}</p>
+                <img data-cl="y" src="${data.current.condition.icon}" alt="">
+                <span data-cl="y"></span>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <div class="options">
+                    <div data-op="pin" class="option pin">
+                        <span data-op="pin">pin</span>
+                        <i data-op="pin" class="fa-solid fa-thumbtack"></i>
                     </div>
-                `
-                location.addEventListener('click', (e) => {
-                    //console.log(e.target)
-                    if(e.target.className != 'fa-solid fa-ellipsis-vertical'){
-                        getWeatherIn(data.location.name)
-                    }
-                })
+                    <div data-op="remove" class="option remove">
+                        <span data-op="remove">remove</span>
+                        <i data-op="remove" class="fa-solid fa-trash"></i>
+                    </div>
+                </div>
+            `
+            if(bool == true){
+                location.children[5].children[0].style.filter = 'blur(2px)'
+                location.children[5].children[0].style.cursor = 'default'
+                location.children[5].children[0].style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
 
-                location.children[4].addEventListener('click',(e)=>{
-
-                    //let op = document.querySelector('header .location .options')
-                    location.children[5].classList.toggle('active')
-                })
-
-                array.push(`${data.location.name}, ${data.location.country}`)
-
-                //console.log('=>>', array)
-                
-    
-                if(sys == 'metric'){
-                    location.children[3].innerHTML = `${data.current.temp_c}&deg;`
-                }else{
-                    location.children[3].innerHTML = `${data.current.temp_f}&deg;`
+            }
+            location.addEventListener('click', (e) => {
+                //console.log(e.target)
+                if(e.target.className === 'location' || e.target.dataset.cl === "y"){
+                    getWeatherIn(data.location.name)
                 }
+            })
+
+            location.children[4].addEventListener('click',(e)=>{
+
+                //let op = document.querySelector('header .location .options')
+                location.children[5].classList.toggle('active')
                 
-                locations.appendChild(location)
-    
+                
             })
-            .catch(err => {
-                console.error(err)
-            })
-        
-    }
+
+            // pin option: save to local storage
+            location.children[5].children[0].addEventListener('click', e => {
+                if(e.target.dataset.op == 'pin'){
+                    saveLocal(`${data.location.name}, ${data.location.country}`)
+                    location.children[5].children[0].style.filter = 'blur(2px)'
+                    location.children[5].children[0].style.cursor = 'default'
+                    location.children[5].children[0].style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
+
+                }
+            } )
+
+            // remove option: remove the parent ticket from header and? local storage
+            location.children[5].children[1].addEventListener('click', e => {
+                if(e.target.dataset.op == 'remove'){
+                    removeLocal(`${data.location.name}, ${data.location.country}`)
+                    location.remove()
+                }
+            } )
+            
+            //console.log(location.children[5].children[0])
+
+
+
+
+            array.push(`${data.location.name}, ${data.location.country}`)
+
+            //console.log('=>>', array)
+            
+
+            if(sys == 'metric'){
+                location.children[3].innerHTML = `${data.current.temp_c}&deg;`
+            }else{
+                location.children[3].innerHTML = `${data.current.temp_f}&deg;`
+            }
+            
+            locations.appendChild(location)
+
+        })
+        .catch(err => {
+            console.error(err)
+        })
     
 }
 let localPosition = document.querySelector('header .locations .location.self-location')
@@ -233,7 +267,49 @@ localPosition.addEventListener('click', () => {
 })
 
 ///////////// tickets event listener
+function saveLocal(area){
+    let locations;
+    if (localStorage.getItem('locations') === null) {
+        locations = [];
+    } else {
+        locations = JSON.parse(localStorage.getItem('locations'));
+    }
+    if(locations.indexOf(area)== -1){
+        locations.push(area);
+        localStorage.setItem("locations", JSON.stringify(locations))
+    }
+    
+}
 
+function removeLocal(area){
+    let locations;
+    if (localStorage.getItem('locations') === null) {
+        locations = [];
+    } else {
+        locations = JSON.parse(localStorage.getItem('locations'));
+    }
+    //const taskIndex = task.children[0].innerText
+    if(locations.indexOf(area) != -1){
+        locations.splice(locations.indexOf(area), 1)
+        localStorage.setItem("locations", JSON.stringify(locations))  
+    }
+    
+}
+
+window.onload = function (){
+    //console.log('loaded')
+    let locations
+    if (localStorage.getItem('locations') === null) {
+        locations = [];
+    } else {
+        locations = JSON.parse(localStorage.getItem('locations'));
+    }
+    locations.forEach((pos)=>{
+        //console.log(pos)
+        addTicket(pos, true)
+        
+    })
+}
 
 
 ////////////
