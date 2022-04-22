@@ -107,6 +107,7 @@ header{
     align-items: center;
     position: relative;
     z-index: 999;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 header .container{
@@ -120,8 +121,39 @@ header nav{
     align-items: center;
     gap: 15px;
     color: rgba(250, 250, 250, 0.952);
+}
+
+@media (max-width:682px){
+    header{
+        height: 115px;
+        font-size: 15px;
+    }
     
-    
+    header .container{
+        display: flex;
+        justify-content: space-around;
+        height: 100%;
+        width: 100%;
+        align-items: flex-end;
+    }
+
+    header .container .sys{
+        margin-bottom: 5px;
+    }
+
+
+    header nav{
+        flex-direction: column;
+        gap: 15px;
+        width: fit-content;
+        align-items: flex-start;
+    }
+
+    header .search i,
+    header .search input[type='text']{
+        margin-top: 15px;
+        margin-bottom: 0px;
+    }
 }
 
 header nav .search{
@@ -152,7 +184,6 @@ header .search i{
     border-bottom-right-radius: 3em;
     background-color: rgba(0, 0, 0, 0.6);
     cursor: pointer;
-    
 }
 
 header .locations{
@@ -216,7 +247,16 @@ header .locations .location .options{
     width: 110px;
     display: none;
     z-index: 9;
-    
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+@media (max-width:520px){
+    header .locations .location .options{
+        right: 0;
+        transform: unset;
+        top: 110%;
+        background-color: rgba(11, 9, 22, 0.99);
+    }
 }
 
 header .locations .location .options.active{
@@ -235,18 +275,16 @@ header .locations .location .options::before{
     transform: translateY(-50%);
     left: -20px;
 }
-/*
-header .locations .location .options::after{
-    position: absolute;
-    content: '';
-    width: 200px;
-    height: 300px;
-    background-color: transparent;
-    right: 0;
-    top: -80px;
-    z-index: -1;
-}*/
 
+@media (max-width:520px){
+    header .locations .location .options::before{
+        top: -20px;
+        left: unset;
+        right: 25px;
+        transform: unset;
+        border-color: transparent transparent rgb(11, 9, 22) transparent;
+    }
+}
 
 header .locations .location .options .option{
     display: flex;
@@ -302,6 +340,7 @@ header .locations .more-locations>i{
 
 header .locations .more-locations.active{
     background-color: rgba(0, 0, 0, 0.3);
+
 }
 
 header .locations .other-locations{
@@ -310,6 +349,34 @@ header .locations .other-locations{
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     width: 320px;
+    left: 0;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+@media (max-width:1000px){
+    header .locations .other-locations{
+        left: unset;
+        right: 0;
+    }
+}
+
+@media (max-width:790px){
+    header .locations .location .options{
+        right: 0;
+        transform: unset;
+        top: 110%;
+        background-color: rgba(11, 9, 22, 0.99);
+    }
+}
+
+@media (max-width:790px){
+    header .locations .location .options::before{
+        top: -20px;
+        left: unset;
+        right: 25px;
+        transform: unset;
+        border-color: transparent transparent rgb(11, 9, 22) transparent;
+    }
 }
 
 header .locations .other-locations.active{
@@ -317,7 +384,6 @@ header .locations .other-locations.active{
     border-radius: 10px;
     top: 60px;
     background-color: rgba(0, 0, 0, 0.8);
-    left: 0;
 }
 
 header .locations .other-locations .location{
@@ -343,6 +409,7 @@ header .container .sys .sys-menu{
     position: absolute;
     border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
 header .container .sys .sys-menu::before{
@@ -403,6 +470,7 @@ header .container .sys .sys-menu span:last-child{
     max-width: 600px;
     padding: 15px;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
 .current-weather .head{
@@ -509,6 +577,7 @@ header .container .sys .sys-menu span:last-child{
     margin-top: 50px;
     padding: 15px;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
 .more .title{

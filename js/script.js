@@ -36,7 +36,7 @@ T.forEach(ele =>{
 
 //// try: tickets section overflow
 let moreLoc = document.querySelector('header .more-locations')
-//let moreLoc = document.querySelector('header .more-locations')
+
 if(array.length <= 1){
     moreLoc.classList.add('empty')
 }
@@ -47,6 +47,10 @@ moreLoc.addEventListener('click', (e) => {
     if(e.target.classList.contains('more-locations')|| e.target.className == 'sp' || e.target.className == 'fa-solid fa-chevron-right' ){
         moreLoc.classList.toggle('active')
         otherLoc.classList.toggle('active')
+        let ops = document.querySelector('header .location .options.active')
+        if(ops != null){
+            ops.classList.remove('active')
+        }
     }
 
 })
@@ -208,15 +212,23 @@ function addTicket(area, pinned){
                 //console.log(e.target)
                 if(e.target.className === 'location' || e.target.dataset.cl === "y"){
                     getWeatherIn(data.location.name)
-                    location.children[6].classList.remove('active')
+                    //location.children[6].classList.remove('active')
+                    let ops = document.querySelector('header .location .options.active')
+                    if(ops != null){
+                        ops.classList.remove('active')
+                    }
                 }
             })
 
             location.children[5].addEventListener('click',(e)=>{
                 //console.log('***', e.target)
                 //let op = document.querySelector('header .location .options')
-                location.children[6].classList.toggle('active')
+                let ops = document.querySelector('header .location .options.active')
                 
+                location.children[6].classList.toggle('active')
+                if(ops != null){
+                    ops.classList.remove('active')
+                }
                 
             })
 
