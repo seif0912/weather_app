@@ -20,12 +20,8 @@ if (input === ''){
 
 
 /////// try code
-
-
 //// try: more section
 let T = document.querySelectorAll('.more .title p')
-
-console.log('-----',T.innerText)
 T.forEach(ele =>{
     ele.addEventListener('click', (e)=>{
         c = e.target.innerText
@@ -38,6 +34,24 @@ T.forEach(ele =>{
 //// try: more section | end
 
 
+//// try: tickets section overflow
+let moreLoc = document.querySelector('header .more-locations')
+//let moreLoc = document.querySelector('header .more-locations')
+if(array.length <= 1){
+    moreLoc.classList.add('empty')
+}
+
+let otherLoc = document.querySelector('header .other-locations')
+moreLoc.addEventListener('click', (e) => {
+    console.log(e.target)
+    if(e.target.classList.contains('more-locations')|| e.target.className == 'sp' || e.target.className == 'fa-solid fa-chevron-right' ){
+        moreLoc.classList.toggle('active')
+        otherLoc.classList.toggle('active')
+    }
+
+})
+
+//// try: tickets section overflow | end
 
 //////// end try code
 
@@ -146,7 +160,7 @@ function searchArea(){
 
 function addTicket(area, pinned){
 
-    let locations = document.querySelector('header .locations')
+    let locations = document.querySelector('header .more-locations .other-locations')
     let location = document.createElement('div')
     // fetching weather data
     key = 'a4ee2070c05a43e5ae3125414221604'
@@ -194,11 +208,12 @@ function addTicket(area, pinned){
                 //console.log(e.target)
                 if(e.target.className === 'location' || e.target.dataset.cl === "y"){
                     getWeatherIn(data.location.name)
+                    location.children[6].classList.remove('active')
                 }
             })
 
             location.children[5].addEventListener('click',(e)=>{
-
+                //console.log('***', e.target)
                 //let op = document.querySelector('header .location .options')
                 location.children[6].classList.toggle('active')
                 
@@ -212,15 +227,19 @@ function addTicket(area, pinned){
                     location.children[6].children[0].style.filter = 'blur(2px)'
                     location.children[6].children[0].style.cursor = 'default'
                     location.children[6].children[0].style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
-
                 }
+                location.children[6].classList.remove('active')
             } )
 
             // remove option: remove the parent ticket from header and? local storage
             location.children[6].children[1].addEventListener('click', e => {
                 if(e.target.dataset.op == 'remove'){
                     removeLocal(`${data.location.name}, ${data.location.country}`)
+                    array.splice(array.indexOf(`${data.location.name}, ${data.location.country}`), 1)
                     location.remove()
+                    if(array.length <= 1){
+                        moreLoc.classList.add('empty')
+                    }
                 }
             } )
             
@@ -228,6 +247,17 @@ function addTicket(area, pinned){
             
             locations.appendChild(location)
             array.push(`${data.location.name}, ${data.location.country}`)
+            
+            /*let moreLoc = document.querySelector('header .more-locations')
+            if(array.length <= 1){
+                moreLoc.style.dislpay = 'none'
+            }*/
+            if(array.length >= 1){
+
+                moreLoc.classList.remove('active')
+                otherLoc.classList.remove('active')
+                moreLoc.classList.remove('empty')
+            }
 
         })
         .catch(err => {
@@ -364,7 +394,7 @@ function localPos(){
             //console.log('***', data)
             let city = data.city
             let country = data.countryName
-            console.log(city, country)
+            //console.log(city, country)
             key = 'a4ee2070c05a43e5ae3125414221604'
             current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${country}`
             fetch(current)

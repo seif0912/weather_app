@@ -166,7 +166,6 @@ header .locations .location{
     padding: 0 15px;
     transition: .2s;
     cursor: pointer;
-    border-right: 1px solid rgba(255, 255, 255, 0.295);
 }
 
 header .locations .location:hover{
@@ -178,9 +177,11 @@ header .locations .location img{
     margin-right: 10px;
 }
 
-header .locations .location p{
+header .location p{
     margin-right: 20px;
     margin-left: 10px;
+    width: max-content;
+    flex: 1;
 }
 
 header .locations .location .temp{
@@ -207,12 +208,15 @@ header .locations .location i.fa-ellipsis-vertical:hover{
 header .locations .location .options{
     position: absolute;
     background-color: rgba(0, 0, 0, 0.4);
-    bottom: -110px;
-    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -125px;
     border-radius: 6px;
     height: fit-content;
     width: 110px;
     display: none;
+    z-index: 9;
+    
 }
 
 header .locations .location .options.active{
@@ -226,10 +230,23 @@ header .locations .location .options::before{
     height: 0;
     border: 10px;
     border-style: solid;
-    border-color: transparent transparent rgba(0, 0, 0, 0.4) transparent;
-    top: -20px;
-    right: 22px;
+    border-color: transparent rgba(0, 0, 0, 0.4) transparent transparent;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -20px;
 }
+/*
+header .locations .location .options::after{
+    position: absolute;
+    content: '';
+    width: 200px;
+    height: 300px;
+    background-color: transparent;
+    right: 0;
+    top: -80px;
+    z-index: -1;
+}*/
+
 
 header .locations .location .options .option{
     display: flex;
@@ -251,6 +268,64 @@ header .locations .location .options .option.remove{
 
 header .locations .location .options .option:hover{
     background-color: rgba(0, 0, 0, 0.6);
+}
+
+header .locations .more-locations{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 15px;
+    cursor: pointer;
+    transition: .2s;
+    border-left: 1px solid rgba(255, 255, 255, 0.295);
+}
+
+header .locations .more-locations.empty{
+    display: none;
+}
+
+
+header .locations .more-locations:hover{
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+header .locations .more-locations span{
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+header .locations .more-locations>i{
+    margin-left: 10px;
+    transform: rotate(90deg);
+}
+
+header .locations .more-locations.active{
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+header .locations .other-locations{
+    display: none;
+    position: absolute;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    width: 320px;
+}
+
+header .locations .other-locations.active{
+    display: block;
+    border-radius: 10px;
+    top: 60px;
+    background-color: rgba(0, 0, 0, 0.8);
+    left: 0;
+}
+
+header .locations .other-locations .location{
+    border-radius: 10px;
+}
+
+header .locations .other-locations .location:hover{
+    background-color: black;
 }
 
 header .container .sys{
