@@ -130,6 +130,8 @@ function searchArea(){
         //console.log('--',area)
         if(b){
             getWeatherIn(area)
+            let tickets = document.querySelectorAll('header .locations .location')
+
             addTicket(area, false)
         }else{
             return
@@ -154,6 +156,10 @@ function addTicket(area, pinned){
         .then(data => {
             //console.log('=>>', data)
             // appending child
+            let loc = `${data.location.name}, ${data.location.country}`
+            if(array.indexOf(loc) != -1){
+                return
+            }
             location.className = 'location'
             location.innerHTML = `
                 <i class="fa-solid fa-house" data-cl="y"></i>
@@ -221,6 +227,7 @@ function addTicket(area, pinned){
             //console.log('=>>', array)
             
             locations.appendChild(location)
+            array.push(`${data.location.name}, ${data.location.country}`)
 
         })
         .catch(err => {
@@ -369,7 +376,7 @@ function localPos(){
                 ticket.children[2].src = data.current.condition.icon
                 ticket.children[3].innerHTML = `${data.current.temp_c}&deg;C`
                 ticket.children[4].innerHTML = `${data.current.temp_f}&deg;F`
-
+                array.push(`${data.location.name}, ${data.location.country}`)
                 //console.log(';;;', ticket.children)
             })
         })
