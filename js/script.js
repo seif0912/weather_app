@@ -21,16 +21,9 @@ if (input === ''){
 
 /////// try code
 //// try: more section
-let T = document.querySelectorAll('.more .title p')
-T.forEach(ele =>{
-    ele.addEventListener('click', (e)=>{
-        c = e.target.innerText
-        document.querySelector('.more .box.active').classList.remove('active')
-        
-        let b1 = document.querySelector(`.more .box.${c}`)
-        b1.classList.add('active')
-    })
-})
+
+
+
 //// try: more section | end
 
 
@@ -495,7 +488,7 @@ function forecastManipulation(data){
     //console.log(data[1])
     //let i = 0
     days.forEach((day, index) =>{
-        console.log(data[1].forecast.forecastday[index])
+        //console.log(data[1].forecast.forecastday[index])
         let dayData = data[1].forecast.forecastday[index]
         //i++
         day.children[0].innerText = dayDate(dayData.date)
@@ -525,6 +518,21 @@ function dayDate(dateString){
     return `${getDayName.slice(0,3)} ${dateString.slice(-2)}`
 }
 
-
-
 /////// forecast | end
+
+/////// More details
+
+let infos = document.querySelectorAll('.more .title p')
+let infoBoxes = document.querySelectorAll('.more .info-box .box')
+
+infos.forEach((ele ,index)=>{
+    console.log(ele, index)
+    ele.addEventListener('click', ()=>{
+        document.querySelector('.more .title p.active').classList.remove('active')
+        document.querySelector('.more .info-box .box.active').classList.remove('active')
+        infos[index].classList.add('active')
+        infoBoxes[index].classList.add('active')
+    })
+})
+
+/////// More details | end
