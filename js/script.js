@@ -120,6 +120,8 @@ function getWeather(city){
 function manipulate(data){
     // current weather widget
     currentWeatherWidget(data)
+    //console.log('forecast')
+    forecastManipulation(data)
 }
 
 //////////////////// header
@@ -475,7 +477,6 @@ function currentWeatherWidget(data){
         visibility.innerText = `${data[1].current.vis_miles} Miles`
         para.innerHTML = para.innerText + ` the high will be ${data[1].forecast.forecastday[0].day.maxtemp_f}&deg;.`
     }
-
 }
 
 
@@ -489,6 +490,40 @@ days.forEach(day =>{
         day.classList.add('active')
     })
 }) 
+
+function forecastManipulation(data){
+    //console.log(data[1])
+    //let i = 0
+    days.forEach((day, index) =>{
+        console.log(data[1].forecast.forecastday[index])
+        let dayData = data[1].forecast.forecastday[index]
+        //i++
+        day.children[0].innerText = dayDate(dayData.date)
+        day.children[1].children[0].children[0].src = dayData.day.condition.icon
+        day.children[1].children[1].children[0].innerHTML = dayData.day.condition.text
+        day.children[1].children[1].children[1].children[1].innerHTML = `${dayData.day.daily_chance_of_rain}%`
+        if(sys === 'Metric'){
+            day.children[1].children[0].children[1].children[0].innerHTML = `${dayData.day.avgtemp_c}&deg;`
+            day.children[1].children[0].children[1].children[1].innerHTML = `${dayData.day.maxtemp_c}&deg;`
+        }else if(sys === 'American'){
+            day.children[1].children[0].children[1].children[0].innerHTML = `${dayData.day.avgtemp_f}&deg;`
+            day.children[1].children[0].children[1].children[1].innerHTML = `${dayData.day.maxtemp_f}&deg;`
+        }
+        
+    }) 
+}
+
+function dayDate(dateString){
+    
+    let getDayName = new Intl.DateTimeFormat('en-Us', { weekday: 'long' }).format(new Date(dateString));
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    
+    if (days[new Date().getDay()] == getDayName){
+        return "Today"
+    }
+    
+    return `${getDayName.slice(0,3)} ${dateString.slice(-2)}`
+}
 
 
 

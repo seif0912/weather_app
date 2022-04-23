@@ -660,6 +660,14 @@ header .container .sys .sys-menu span:last-child{
     transition: .25s;
 }
 
+.forecast .day.active .sky p:first-child{
+    margin-left: 20px;
+}
+
+.forecast .day.active .sky p:last-child span{
+    margin-left: 8px;
+}
+
 /* end forcast */
 
 /* start more */
