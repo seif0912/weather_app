@@ -568,13 +568,106 @@ header .container .sys .sys-menu span:last-child{
 
 /* end Current Weather Widget */
 
+/* start forcast */
+
+.forecast{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.forecast .day{
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    min-width: 150px;
+    margin: 0;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+    cursor: pointer;
+    transition: .25s
+}
+
+.forecast .day:hover{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.forecast .day h2{
+    text-transform: capitalize;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.808);
+    margin: 0;
+}
+
+.forecast .day .info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.forecast .day .info .temp{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.forecast .day .info .temp img{
+    width: 50px;
+}
+
+.forecast .day .info .temp .temps p:last-child{
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.forecast .day .info .sky{
+    display: none;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: end;
+    transition: .25s;
+}
+
+.forecast .day .info .sky p:first-child{
+    text-transform: capitalize;
+}
+
+.forecast .day.active{
+    min-width: 250px;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: .25s;
+    position: relative;
+}
+
+.forecast .day.active::before{
+    content: '';
+    position: absolute;
+    height: 0;
+    width: 0;
+    border: 15px solid;
+    border-color: rgba(0, 0, 0, 0.3) transparent transparent transparent;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    bottom: -45px;
+}
+
+.forecast .day.active h2{
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.forecast .day.active .sky{
+    display: block;
+    transition: .25s;
+}
+
+/* end forcast */
 
 /* start more */
 
 .more{
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
-    margin-top: 50px;
+    margin-top: 20px;
     padding: 15px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;

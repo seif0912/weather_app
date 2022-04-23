@@ -477,3 +477,19 @@ function currentWeatherWidget(data){
     }
 
 }
+
+
+/////// forecast
+
+let days = document.querySelectorAll('.forecast .day')
+days.forEach(day =>{
+    day.addEventListener('click', ()=>{
+        let acDay = document.querySelector('.forecast .day.active')
+        acDay.classList.remove('active')
+        day.classList.add('active')
+    })
+}) 
+
+
+
+/////// forecast | end
