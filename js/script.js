@@ -475,16 +475,11 @@ function currentWeatherWidget(data){
 
 /////// forecast
 
-let days = document.querySelectorAll('.forecast .day')
-days.forEach(day =>{
-    day.addEventListener('click', ()=>{
-        let acDay = document.querySelector('.forecast .day.active')
-        acDay.classList.remove('active')
-        day.classList.add('active')
-    })
-}) 
+
+
 
 function forecastManipulation(data){
+    let days = document.querySelectorAll('.forecast .day')
     //console.log(data[1])
     //let i = 0
     days.forEach((day, index) =>{
@@ -502,7 +497,23 @@ function forecastManipulation(data){
             day.children[1].children[0].children[1].children[0].innerHTML = `${dayData.day.avgtemp_f}&deg;`
             day.children[1].children[0].children[1].children[1].innerHTML = `${dayData.day.maxtemp_f}&deg;`
         }
-        
+        //console.log(day)
+    }) 
+    let defDaySummary = document.querySelector('.forecast .day.active')
+    let defSummary = document.querySelector('.info-box .box.active')
+    //console.log(defDaySummary)
+    //console.log(defSummary)
+    summaryMani(defSummary, 0, data[1])
+    days.forEach((day, index) =>{
+        day.addEventListener('click', ()=>{
+            let acDay = document.querySelector('.forecast .day.active')
+            acDay.classList.remove('active')
+            day.classList.add('active')
+            //console.log(index)
+            //console.log(data[1].forecast.forecastday[index].hour)
+            summaryMani(defSummary, index, data[1])
+            console.log('indes: ', index)
+        })
     }) 
 }
 
@@ -526,7 +537,7 @@ let infos = document.querySelectorAll('.more .title p')
 let infoBoxes = document.querySelectorAll('.more .info-box .box')
 
 infos.forEach((ele ,index)=>{
-    console.log(ele, index)
+    //console.log(ele, index)
     ele.addEventListener('click', ()=>{
         document.querySelector('.more .title p.active').classList.remove('active')
         document.querySelector('.more .info-box .box.active').classList.remove('active')
@@ -534,5 +545,106 @@ infos.forEach((ele ,index)=>{
         infoBoxes[index].classList.add('active')
     })
 })
+
+/// summary Chart
+
+function summaryMani(day, ind, forecastData){
+    let hourlyTemp_c = []
+    let hourlyTemp_f = []
+    let hours = []
+    forecastData.forecast.forecastday[ind].hour.forEach((h,i)=>{
+        hours = [...hours,i]
+        hourlyTemp_c = [...hourlyTemp_c,h.temp_c]
+        hourlyTemp_f = [...hourlyTemp_f,h.temp_f]
+        console.log(ind)
+    })
+
+
+    if (sys == 'Metric'){
+        getChart(hours, hourlyTemp_c)
+    }else if (sys == 'American'){
+        getChart(hours, hourlyTemp_f)
+    }
+    
+}
+
+let myChart = null
+function getChart(hours, hourlyTemp_c){
+    if (myChart != null){
+        myChart.destroy()
+    }
+    let ctx = document.querySelector('#hourlyChart').getContext('2d')
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0,'rgba(230,136,15,0.3)')
+    gradient.addColorStop(1,'rgba(0,210,255,0.3)')
+
+    Chart.defaults.font.family = 'Helvetica';
+    const labels = hours
+    const data = {
+        labels,
+        datasets: [{
+            data: hourlyTemp_c,
+            label: 'temperature',
+            fill: true,
+            backgroundColor: gradient,
+            borderColor: 'rgba(255,255,255,.75)',
+            pointBackgroundColor: '#aaa',
+            tension: 0.4
+        }]
+    }
+
+    let delayed
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            radius: 5,
+            hitRadius: 30,
+            hoverRadius: 10,
+            responsive: true,
+            animation: {
+                onComplete:()=> {
+                    delayed = true;
+                },
+                delay: (context) =>{
+                    let delay = 0
+                    if (context.type === 'data' && context.mode === 'default' && !delayed){
+                        delay = context.dataIndex * 50 + context.datasetIndex * 100;
+                    }
+                    return delay;
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        callback: function(value){
+                            return value + '°'
+                        },
+                        color: "rgba(255,255,255,.75)"
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: "rgba(255,255,255,.75)"
+                    }
+                }
+            }
+        }
+    }
+
+    myChart = new Chart(ctx, config) 
+
+}
+
+
+
+
+/// summary Chart | end
 
 /////// More details | end
