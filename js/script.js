@@ -500,10 +500,13 @@ function forecastManipulation(data){
         //console.log(day)
     }) 
     let defDaySummary = document.querySelector('.forecast .day.active')
-    let defSummary = document.querySelector('.info-box .box.active')
+    let defSummary = document.querySelector('.info-box .box.summary-graph')
+    let defHourly = document.querySelector('.info-box .box.hourly')
+     
     //console.log(defDaySummary)
     //console.log(defSummary)
     summaryMani(defSummary, 0, data[1])
+    hourlyMani(defHourly, data[1].forecast.forecastday[0].hour)
     days.forEach((day, index) =>{
         day.addEventListener('click', ()=>{
             let acDay = document.querySelector('.forecast .day.active')
@@ -512,7 +515,8 @@ function forecastManipulation(data){
             //console.log(index)
             //console.log(data[1].forecast.forecastday[index].hour)
             summaryMani(defSummary, index, data[1])
-            console.log('indes: ', index)
+            hourlyMani(defHourly, data[1].forecast.forecastday[index].hour)
+            //console.log('index: ', index, data[1].forecast.forecastday[index])
         })
     }) 
 }
@@ -556,7 +560,7 @@ function summaryMani(day, ind, forecastData){
         hours = [...hours,i]
         hourlyTemp_c = [...hourlyTemp_c,h.temp_c]
         hourlyTemp_f = [...hourlyTemp_f,h.temp_f]
-        console.log(ind)
+        //console.log(ind)
     })
 
 
@@ -641,10 +645,16 @@ function getChart(hours, hourlyTemp_c){
     myChart = new Chart(ctx, config) 
 
 }
-
-
-
-
 /// summary Chart | end
+
+/// hourly 
+
+function hourlyMani(container, hoursData){
+    console.log(container)
+    console.log(hoursData)
+}
+
+
+/// hourly | end
 
 /////// More details | end
