@@ -506,7 +506,7 @@ function forecastManipulation(data){
     //console.log(defDaySummary)
     //console.log(defSummary)
     summaryMani(defSummary, 0, data[1])
-    hourlyMani(defHourly, data[1].forecast.forecastday[0].hour)
+    hourlyMani(defHourly, data, 0)
     days.forEach((day, index) =>{
         day.addEventListener('click', ()=>{
             let acDay = document.querySelector('.forecast .day.active')
@@ -515,7 +515,7 @@ function forecastManipulation(data){
             //console.log(index)
             //console.log(data[1].forecast.forecastday[index].hour)
             summaryMani(defSummary, index, data[1])
-            hourlyMani(defHourly, data[1].forecast.forecastday[index].hour)
+            hourlyMani(defHourly, data, index)
             //console.log('index: ', index, data[1].forecast.forecastday[index])
         })
     }) 
@@ -648,10 +648,68 @@ function getChart(hours, hourlyTemp_c){
 /// summary Chart | end
 
 /// hourly 
+let hourN = document.querySelector('.info-box .box.hourly .hour')
 
-function hourlyMani(container, hoursData){
-    let hours = Array.prototype.slice.call(container.children);
+function hourlyMani(container, data, index){
     
+    // remove all children or it will add another 24 children with eath operation
+    while(container.children[0]){
+        container.children[0].remove()
+    }
+    
+    let hoursData = data[1].forecast.forecastday[index].hour
+    
+    // add 24 hourly forcast for each day 
+    hoursData.forEach((hour, i) =>{
+        //let hourProto = document.createElement()
+        let p = hourN.cloneNode(true)
+        let t = makeTime(i)
+        let pe = 'AM'
+        if(i > 12){
+            pe = "PM"
+        }
+        p.children[1].innerText = `${t} ${pe}`
+        
+        /// active current hour
+        let time = data[0].location.localtime
+        time = time.substr(-5,2)
+        if (Number(t) == time && index == 0){
+            p.classList.add('active')
+        }
+        // end
+
+        /// start manipulation
+        p.children[0].children[0].children[0].children[0].src = hoursData[i].condition.icon
+        p.children[0].children[0].children[0].children[2].innerText = hoursData[i].condition.text
+        p.children[0].children[0].children[1].children[0].children[1].innerText = `${hoursData[i].chance_of_rain}%`
+        p.children[0].children[0].children[1].children[1].children[1].style.transform = `rotate(${hoursData[i].wind_degree}deg)`
+        p.children[0].children[1].children[0].children[1].children[1].children[1].innerHTML = `${hoursData[i].uv}`
+        p.children[0].children[1].children[1].children[0].children[1].children[1].innerHTML = `${hoursData[i].humidity} %`
+        p.children[0].children[1].children[1].children[2].children[1].children[1].innerHTML = `${hoursData[i].cloud} %`
+        
+        if(sys=='Metric'){
+            p.children[0].children[0].children[0].children[1].innerHTML = `${hoursData[i].temp_c}&deg;`
+            p.children[0].children[0].children[1].children[1].children[0].innerText = `${hoursData[i].wind_kph} Kph`
+            p.children[0].children[1].children[0].children[0].children[1].children[1].innerHTML = `${hoursData[i].feelslike_c}&deg;`
+            p.children[0].children[1].children[0].children[2].children[1].children[1].innerHTML = `${hoursData[i].gust_kph} kph`
+            p.children[0].children[1].children[0].children[3].children[1].children[1].innerHTML = `${hoursData[i].dewpoint_c} &deg;`
+            p.children[0].children[1].children[1].children[1].children[1].children[1].innerHTML = `${hoursData[i].vis_km} Kms`
+        }else if(sys == 'American'){
+            p.children[0].children[0].children[0].children[1].innerHTML = `${hoursData[i].temp_f}&deg;`
+            p.children[0].children[0].children[1].children[1].children[0].innerText = `${hoursData[i].wind_mph} Mph`
+            p.children[0].children[1].children[0].children[0].children[1].children[1].innerHTML = `${hoursData[i].feelslike_f}&deg;`
+            p.children[0].children[1].children[0].children[2].children[1].children[1].innerHTML = `${hoursData[i].gust_mph} mph`
+            p.children[0].children[1].children[0].children[3].children[1].children[1].innerHTML = `${hoursData[i].dewpoint_f} &deg;`
+            p.children[0].children[1].children[1].children[1].children[1].children[1].innerHTML = `${hoursData[i].vis_miles} miles`
+        }
+        // end manipulation
+
+        container.appendChild(p) 
+    })
+
+
+    // open details onclick
+    let hours = Array.prototype.slice.call(container.children);
     hours.forEach((hour, i)=>{
         hour.addEventListener('click', ()=>{
             let prHour = document.querySelector('.more .hourly .hour.active')
@@ -666,7 +724,20 @@ function hourlyMani(container, hoursData){
             }
         })
     })
-    console.log(hours)
+    
+    //console.log(container)
+}
+
+function makeTime(hou){
+    Number.prototype.pad = function(digits){
+        //for(let n = this.toString(); n.length < digits; n = 0 + n)
+        let st = this.toString()
+        if(st.length == 1){
+            return '0' + st 
+        }
+        return st
+    }
+    return hou.pad(2)
 }
 
 
