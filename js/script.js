@@ -650,8 +650,23 @@ function getChart(hours, hourlyTemp_c){
 /// hourly 
 
 function hourlyMani(container, hoursData){
-    console.log(container)
-    console.log(hoursData)
+    let hours = Array.prototype.slice.call(container.children);
+    
+    hours.forEach((hour, i)=>{
+        hour.addEventListener('click', ()=>{
+            let prHour = document.querySelector('.more .hourly .hour.active')
+            
+            if ( hour == prHour){
+                prHour.classList.remove('active')
+            }else if (prHour == null){
+                hour.classList.add('active')
+            }else{
+                prHour.classList.remove('active')
+                hour.classList.add('active')
+            }
+        })
+    })
+    console.log(hours)
 }
 
 
