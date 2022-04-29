@@ -36,7 +36,7 @@ if(array.length <= 1){
 
 let otherLoc = document.querySelector('header .other-locations')
 moreLoc.addEventListener('click', (e) => {
-    console.log(e.target)
+    //console.log(e.target)
     if(e.target.classList.contains('more-locations')|| e.target.className == 'sp' || e.target.className == 'fa-solid fa-chevron-right' ){
         moreLoc.classList.toggle('active')
         otherLoc.classList.toggle('active')
@@ -442,9 +442,10 @@ function currentWeatherWidget(data){
     let visibility = document.querySelector('.current-weather .info .box.visibility p')
     let pressure = document.querySelector('.current-weather .info .box.pressure p')
     let para = document.querySelector('.current-weather .para')
-    
+    let background = document.querySelector('body .background')
     
     // manipulation
+    backgroundMani(background, data[0].current.condition.text, data[0].current.is_day)
     localPlace.innerText = `${data[0].location.name}, ${data[0].location.country}`
     dt.innerText = data[0].location.localtime
     weatherIcon.src = data[0].current.condition.icon
@@ -472,6 +473,53 @@ function currentWeatherWidget(data){
     }
 }
 
+function backgroundMani(con, text, day){
+    let t = text.toUpperCase()
+    con.style.backgroundImage = ''
+    if (t.includes('Partly cloudy'.toUpperCase()) && day == 1){
+        con.style.backgroundImage = "url('images/day-partly_cloudy.png')"
+    }
+    else if(t.includes('Partly cloudy'.toUpperCase()) && day == 0){
+        con.style.backgroundImage = "url('images/night-partly-couldy.jpg')"
+    }
+    else if(t.includes('cloudy'.toUpperCase()) && day == 1){
+        con.style.backgroundImage = "url('images/day-cloudy.png')"
+    }
+    else if(t.includes('cloudy'.toUpperCase()) && day == 0){
+        con.style.backgroundImage = "url('images/night-cloudy.png')"
+    }
+    else if(t.includes('clear'.toUpperCase()) && day == 0){
+        con.style.backgroundImage = "url('images/night-clear.png')"
+    }
+    else if(t.includes('sunny'.toUpperCase())){
+        con.style.backgroundImage = "url('images/day-sunny.webp')"
+    }
+    else if(t.includes("snow".toUpperCase()) || t.includes("sleet".toUpperCase()) || t.includes("ice".toUpperCase()) || t.includes("blizzard".toUpperCase())){
+        con.style.backgroundImage = "url('images/snow.jpg')"
+    }
+    else if(t.includes("overcast".toUpperCase())){
+        con.style.backgroundImage = "url('images/day-overcast.jpg')"
+    }
+    else if(t.includes("lightning".toUpperCase()) || t.includes("thunder".toUpperCase())){
+        con.style.backgroundImage = "url('images/lightning.png')"
+    }
+    else if(t.includes("rain".toUpperCase())){
+        con.style.backgroundImage = "url('images/rain.jpg')"
+    }
+    else if(t.includes("mist".toUpperCase())){
+        con.style.backgroundImage = "url('images/mist.jpg')"
+    }
+    else if(t.includes("shower".toUpperCase())){
+        con.style.backgroundImage = "url('images/shower.jpg')"
+    }
+    else if(t.includes("fog".toUpperCase())){
+        con.style.backgroundImage = "url('images/fog.png')"
+    }
+    else if(t.includes("cold".toUpperCase()) || t.includes("drizzle".toUpperCase())){
+        con.style.backgroundImage = "url('images/cold.jpg')"
+    }
+    
+}
 
 /////// forecast
 
