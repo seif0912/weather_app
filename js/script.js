@@ -89,11 +89,11 @@ function getWeatherIn(city){
 // get weather
 function getWeather(city){
     key = 'a4ee2070c05a43e5ae3125414221604'
-    current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${city}`
-    forecast = `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&days=10&aqi=yes&alerts=yes`
-    search_autocomplete = `http://api.weatherapi.com/v1/search.json?key=${key}&q=${city}`
-    astronomy = `http://api.weatherapi.com/v1/astronomy.json?key=${key}&q=${city}`
-    timeZone = `http://api.weatherapi.com/v1/timezone.json?key=${key}&q=${city}`
+    current = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${city}`
+    forecast = `https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&days=10&aqi=yes&alerts=yes`
+    search_autocomplete = `https://api.weatherapi.com/v1/search.json?key=${key}&q=${city}`
+    astronomy = `https://api.weatherapi.com/v1/astronomy.json?key=${key}&q=${city}`
+    timeZone = `https://api.weatherapi.com/v1/timezone.json?key=${key}&q=${city}`
     urls = [current, forecast, search_autocomplete, astronomy, timeZone]
     
     promises = urls.map(url => fetch(url))
@@ -101,7 +101,7 @@ function getWeather(city){
     Promise.all(urls.map(url =>
         fetch(url).then(resp => resp.json())
     )).then(objs =>{
-        console.log(objs) 
+        //console.log(objs) 
         manipulate(objs) // manipulate the DOM accourding to the weather data
     }).catch(res =>{
         console.log(res)
@@ -163,7 +163,7 @@ function addTicket(area, pinned){
     let location = document.createElement('div')
     // fetching weather data
     key = 'a4ee2070c05a43e5ae3125414221604'
-    current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${area}`
+    current = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${area}`
     fetch(current)
         .then(res => res.json())
         .then(data => {
@@ -403,7 +403,7 @@ function localPos(){
             let country = data.countryName
             //console.log(city, country)
             key = 'a4ee2070c05a43e5ae3125414221604'
-            current = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${country}`
+            current = `https://api.weatherapi.com/v1/current.json?key=${key}&q=${country}`
             fetch(current)
             .then(res => res.json())
             .then(data => {
@@ -797,8 +797,8 @@ function makeTime(hou){
 /// astronomy
 
 function astronomyMani(con, astData){
-    console.log(con)
-    console.log(astData)
+    //console.log(con)
+    //console.log(astData)
     let sunrise = document.querySelector('.astronomy .prop[data-sunrise] .in .value')
     let sunset = document.querySelector('.astronomy .prop[data-sunset] .in .value')
     let moonrise = document.querySelector('.astronomy .prop[data-moonrise] .in .value')
@@ -817,3 +817,5 @@ function astronomyMani(con, astData){
 /// astronomy | end
 
 /////// More details | end
+
+///////////////// end 
