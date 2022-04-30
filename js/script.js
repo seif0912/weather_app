@@ -550,11 +550,13 @@ function forecastManipulation(data){
     let defDaySummary = document.querySelector('.forecast .day.active')
     let defSummary = document.querySelector('.info-box .box.summary-graph')
     let defHourly = document.querySelector('.info-box .box.hourly')
-     
+    let defAstronomy = document.querySelector('.info-box .box.astronomy')
+    
     //console.log(defDaySummary)
     //console.log(defSummary)
     summaryMani(defSummary, 0, data[1])
     hourlyMani(defHourly, data, 0)
+    astronomyMani(defAstronomy, data[3])
     days.forEach((day, index) =>{
         day.addEventListener('click', ()=>{
             let acDay = document.querySelector('.forecast .day.active')
@@ -564,6 +566,7 @@ function forecastManipulation(data){
             //console.log(data[1].forecast.forecastday[index].hour)
             summaryMani(defSummary, index, data[1])
             hourlyMani(defHourly, data, index)
+            astronomyMani(defAstronomy, data[3])
             //console.log('index: ', index, data[1].forecast.forecastday[index])
         })
     }) 
@@ -713,7 +716,7 @@ function hourlyMani(container, data, index){
         let p = hourN.cloneNode(true)
         let t = makeTime(i)
         let pe = 'AM'
-        if(i > 12){
+        if(i >= 12){
             pe = "PM"
         }
         p.children[1].innerText = `${t} ${pe}`
@@ -790,5 +793,27 @@ function makeTime(hou){
 
 
 /// hourly | end
+
+/// astronomy
+
+function astronomyMani(con, astData){
+    console.log(con)
+    console.log(astData)
+    let sunrise = document.querySelector('.astronomy .prop[data-sunrise] .in .value')
+    let sunset = document.querySelector('.astronomy .prop[data-sunset] .in .value')
+    let moonrise = document.querySelector('.astronomy .prop[data-moonrise] .in .value')
+    let moonset = document.querySelector('.astronomy .prop[data-moonset] .in .value')
+    let moonPhase = document.querySelector('.astronomy .prop[data-moon-phase] .in .value')
+    let moonIllumination = document.querySelector('.astronomy .prop[data-moon-Illumination] .in .value')
+    
+    sunrise.innerText = astData.astronomy.astro.sunrise
+    sunset.innerText = astData.astronomy.astro.sunset
+    moonrise.innerText = astData.astronomy.astro.moonrise
+    moonset.innerText = astData.astronomy.astro.moonset
+    moonPhase.innerText = astData.astronomy.astro.moon_phase
+    moonIllumination.innerText = astData.astronomy.astro.moon_illumination
+}
+
+/// astronomy | end
 
 /////// More details | end

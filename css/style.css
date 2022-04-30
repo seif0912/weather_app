@@ -967,3 +967,42 @@ header .container .sys .sys-menu span:last-child{
 }
 
 /* hourly | end */
+
+/* astronomy */
+
+.more .box.astronomy.active{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.box.astronomy.active .info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 150px;
+}
+
+.box.astronomy.active .info .prop {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.box.astronomy.active .info .prop img{
+    width: 25px;
+}
+
+.box.astronomy.active .info .prop .in h3{
+    margin: 0 0 5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.box.astronomy.active .info .prop .in p{
+    margin: 0;
+}
+
+/* astronomy | end */
