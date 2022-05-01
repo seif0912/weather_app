@@ -492,7 +492,7 @@ function backgroundMani(con, text, day){
         con.style.backgroundImage = "url('images/night-clear.png')"
     }
     else if(t.includes('sunny'.toUpperCase())){
-        con.style.backgroundImage = "url('images/day-sunny.webp')"
+        con.style.backgroundImage = "url('images/day-sunny.png')"
     }
     else if(t.includes("snow".toUpperCase()) || t.includes("sleet".toUpperCase()) || t.includes("ice".toUpperCase()) || t.includes("blizzard".toUpperCase())){
         con.style.backgroundImage = "url('images/snow.jpg')"
